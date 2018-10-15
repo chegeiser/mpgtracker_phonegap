@@ -1,0 +1,79 @@
+#selectedFiles1 img {
+        max-width: 200px;
+        max-height: 200px;
+        float: middle;
+        margin-bottom:10px;
+        display: inline-block;
+    }
+
+#selectedFiles2 img {
+        max-width: 200px;
+        max-height: 200px;
+        float: middle;
+        margin-bottom:10px;
+        display: inline-block;
+    }
+
+.inline-block {
+   display: inline-block;
+}
+
+textarea {
+  resize:vertical;
+}
+
+.thumb{
+    height: 200px;
+    /* width: 150px; */
+    padding-left: 7px;
+	padding-top: 7px;
+}
+
+img{
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	padding-top: 3px;
+}
+
+.container {
+/*  margin: auto;*/
+  max-width: 900px;
+}
+
+.required:before {
+    color: red;
+    content: '*';
+    float: left;
+}
+
+		.resultImageWrapper {
+			display: none;
+			margin-top: 50px;
+			text-align: center;
+		}
+		#resultImage {
+			box-shadow: rgba(0,0,0,0.4) 0 2px 5px;
+		}
+
+/*@media print {
+  @page {
+
+  	  margin-left: 0.75in !important;
+  	  margin-right: 0.75in !important;
+  	  margin-top: 1in;
+  	  margin-bottom: 1in;
+    }
+  .no-print, .no-print * {
+  display: none !important;
+    page-break-inside: avoid;
+  }
+}*/
+
+@media screen and (max-width: 1020px) {
+  #container, #header, #content, #footer {
+    float: none;
+    width: auto;
+  }
+
+/* Expanding textarea from: https://alistapart.com/article/expanding-text-areas-made-elegant */

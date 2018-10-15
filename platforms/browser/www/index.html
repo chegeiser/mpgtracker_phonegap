@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<!--<html lang="en-us" manifest="fieldreport.manifest">-->
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <title>Field Report</title>
+    <!-- begin addition -->
+    <meta name="description" content="">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <meta http-equiv="cleartype" content="on">
+
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="img/CE_icon.png" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Allerta">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" media="print" href="css/print.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/pouchdb-nightly.min.js"></script>
+    <script type="text/javascript" src="js/application.js"></script>
+    <script type="text/javascript" src="js/imgUpload.js"></script>
+    <script type="text/javascript" src="js/custom.js"></script>
+
+</head>
+
+<body  ontouchstart="">
+  <div class="container">
+    <header>
+      <h1 align="center"><img src="img/BOE_CMYK.png" style="vertical-align: middle; height:40px"></h1><br>
+    </header>
+    <main>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12 col-sm-3 ">
+            <button class="clicktarget btn no-print" type="button" style="width: 125px" data-action="viewnoteset" data-show="#allnotes" data-hide="section:not(#allnotes)">View Notes</button>
+          </div>
+          <div class="col-xs-12 col-sm-3 ">
+            <button class="clicktarget btn no-print" type="button" style="width: 125px" data-show="#addnote" data-hide="section:not(#addnote)">Add Note</button>
+          </div>
+        </div><br>
+
+        <section id="addnote" class="">
+          <form id="noteform" method="post" data-show="#allnotes" data-hide="#addnote" class="">
+            <div class="row">
+              <div class="col-xs-12 col-sm-3 ">
+                <button class="clicktarget edit btn no-print" type="button" style="width: 125px" >Edit Note</button>
+              </div>
+              <div class="col-xs-12 col-sm-3 ">
+                <button class="clicktarget delete btn no-print" type="button" style="width: 125px">Delete Note</button>
+              </div>
+            </div><br>
+
+            <div class="row">
+              <div class="required col-xs-12 col-sm-6 ">
+                <label for="technician">Technician:</label>
+                <input id="technician" name="technician" placeholder="Nigel Tuffnel" value="" type="text" style="text-transform: capitalize;" /><br><br>
+              </div>
+              <div class="required col-xs-12 col-sm-6">
+                  <label for="company">Company:</label>
+                  <input id="company" name="company" placeholder="Acme Inc" value="" type="text"/><br><br>
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="required col-xs-12 col-sm-12 ">
+                    <label for="project">Project:</label>
+                    <input id="project" name="project" placeholder="Squatney" value="" type="text"/><br><br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 ">
+                    <label for="dateFirstNoted">Date First Noted:</label>
+                    <input id="dateFirstNoted" name="Date First Noted" rows="1" value="" type="date"/><br><br>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <label for="dateResolved">Date Resolved:</label>
+                    <input id="dateResolved" name="Date Resolved" rows="1" value="" type="date"/><br><br>
+                </div>
+            </div>
+            <div class="row">
+              <div class="required col-sm-4 col-sm-offset-4">
+                <label for="noteStatus">Status:</label>
+                <select id="noteStatus" class="form-control" onchange="change()" required="">
+                  <option value="" selectedstyle="font-style:italic" selected="" hidden="">Choose status</option>
+                  <option id="Open" value="Open">Open</option>
+                  <option id="Pending" value="Pending">Return Trip Required</option>
+                  <option id="Closed" value="Closed">Closed</option>
+                </select><br><br>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                  <label for="block">Block:</label>
+                  <input id="block" name="Facility/Block" rows="1" value="" type="text"/><br>
+                  <label style="font-style:italic; font-size:75%; font-weight:normal">(Sub-array or Facility)</label><br>
+              </div>
+              <div class="required col-xs-6">
+                <label for="equipment">Equipment:</label>
+                <select id="equipment" class="form-control required" onchange="displayQuestion(this.value)" required="">
+                  <option value="" selected="" hidden="">Choose equipment</option>
+                  <option id="Module" value="Module">Module</option>
+                  <option id="String" value="String">String Wiring</option>
+                  <option id="Conduit" value="Conduit">Conduit</option>
+                  <option id="Combiner" value="Combiner">Combiner</option>
+                  <option id="Inverter" value="Inverter">Inverter</option>
+                  <option id="Panelboard" value="Panelboard">Panelboard</option>
+                  <option id="Switchgear" value="Switchgear">Switchgear</option>
+                  <option id="Pad" value="Pad">Pad</option>
+                  <option id="SCADA" value="SCADA">SCADA/DAS</option>
+                  <option id="Communications" value="Communications">Communications</option>
+                  <option id="Fence" value="Fence">Fence</option>
+                  <option id="Civil" value="Civil">Civil/Roads</option>
+                  <option id="Landscaping" value="Landscaping">Landscaping</option>
+                  <option id="Other" value="other">Other</option>
+                </select><br><br>
+              </div>
+            </div>
+              <div class="row">
+                <div id="otherSelect" class="col-sm-12" style="display:none;">
+                  <label for="otherequipment">Other Equipment:</label>
+                  <textarea id="otherequipment" oninput="auto_grow(this)" rows="1" type="text" value=""></textarea><br><br><br>
+                </div><br>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <input id="_rev" name="_rev" value="" type="hidden">
+                  <input id="_id" name="_id" value="" type="hidden">
+                  <label for="notetitle">Issue Title:</label>
+                  <textarea type="text" id="notetitle" name="notetitle" rows="1" oninput="auto_grow(this)" placeholder="Untitled Note" value="" style="height: 24px;"></textarea><br><br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <label for="note">Details:</label>
+                  <textarea id="note" name="note" oninput="auto_grow(this)" cols="50" rows="5" placeholder="Add note text here. This field is required." required="" style="height: 24px;"></textarea><br><br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <label for="repairs">Repairs &amp; Corrections Made:</label>
+                  <textarea id="repairs" oninput="auto_grow(this)" name="Repairs &amp; Corrections" type="text" value=""></textarea><br><br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <label for="recommendedAction">Recommended Further Action:</label>
+                  <textarea id="recommendedAction" oninput="auto_grow(this)" name="Recommended Action" type="text" value=""></textarea><br><br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <label for="additionalService">Additional Service Required:</label>
+                  <textarea oninput="auto_grow(this)" id="additionalService" name="addService" rows="1" type="text" value=""></textarea><br><br>
+                </div>
+              </div>
+
+              <div id="locationSection" class="no-print">
+                <div id="ShowLocationEntry" style="display:none">
+                  <button type="button" onclick="locationEntry(); " class="btn no-print" style="width: 125px" >Add GPS Position</button><br><br>
+                </div>
+                <div id="HideLocationEntry" style="display:block">
+                  <button type="button" onclick="hidelocationEntry(); " class="btn no-print" style="width: 125px" >Hide GPS Entry</button><br><br>
+                </div>
+              </div>
+              <div id="LocationEntry" style="display:block">
+                <div class="no-print">
+                  <!--<button style="width:150px" value="Issue Location:" onclick="javascript:getHere()">Location:</button>-->
+                  <!--<center><input type="button" style="width:200px; background-color:white" value="Issue Location:" onkeypress="javascript:getHere()" /><br></center>-->
+                  <center><input class="btn no-print" style="width: 125px" value="Issue Location:" onclick="javascript:getHere()" type="button"/><br></center>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4">
+                    <label for="longitude">Longitude:</label>
+                    <input maxlength="12" rows="1" id="longitude" type="text"/><br>
+                  </div>
+                  <div class="col-xs-12 col-sm-4">
+                    <label for="latitude">Latitude:</label>
+                    <input maxlength="10" rows="1" id="latitude" type="text"/><br>
+                  </div>
+                  <div class="col-xs-12 col-sm-4">
+                    <label for="accuracy">Accuracy:</label>
+                    <input rows="1" id="accuracy" type="text"/><br><br>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <form id="imagesForm"> -->
+              <div class="container-fluid">
+                <div class="groupPage">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <label>Before Service Images:</label>
+                    </div>
+                  </div>
+                  <div class="row no-print">
+                    <div class="col-sm-12">
+                      <label style="font-weight:normal; font-size:75%;">Select images showing the conditions of the equipment <i><b>before</b></i> you began your work.</label>
+                    </div>
+                  </div>
+                  <div class="row no-print">
+                    <div class="col-sm-12">
+                      <article align="center">
+                        <input type="file" id="files1" name="files1" accept="image/*" />
+                      </article>
+                    </div>
+                    <div class="col-sm-12" >
+                      <article align="center">
+                        <input type="file" id="files2" name="files2" accept="image/*" />
+                      </article>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <article align="center">
+                      <div id="selectedFiles1" style="display:inline"></div><div id="selectedFiles2" style="display:inline"></div>
+                      <label class="no-print" style="font-weight:normal; font-size:75%;"><i>Select an image to delete it.</i></label>
+                    </article>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <br><textarea oninput="auto_grow(this)" id='ImageNotes' name='addServiceImgNotes' rows="1" type='text' value='' placeholder='Before Service - Image Notes' /></textarea><br><br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <!--  <div class="container-fluid">
+                <div class="groupPage">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <label>After Service Images:</label>
+                    </div>
+                  </div>
+                  <div class="no-print">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <label for="inputFile5" style="font-weight:normal; font-size:75%;">Select images showing the conditions of the equipment <i><b>after</b></i> you completed your work: </label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <article align="center">
+                          <input type="file" id="files2" name="files2" accept="image/*"  multiple />
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                  <article align="center">
+                    <div id="selectedFiles2"></div>
+                    <label class="no-print" style="font-weight:normal; font-size:75%;"><i>Select an image to delete it.</i></label>
+                  </article>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <br><textarea oninput="auto_grow(this)" id='ImageNotes2' name='addServiceImgNotes2' rows="1" type='text' value='' placeholder='After Service - Image Notes' /></textarea><br><br>
+                    </div>
+                  </div>
+                </div>
+              </div>-->
+
+
+              <!-- </form> -->
+<!--          <p class="rel"></p>
+              <div class="no-print">
+                <input id="attachment" name="attachment" class="abs" type="file">
+              </div>
+              <label for="attachment" class="btn">Attachment(s):</label>
+              <span class="filelist"></span>
+              <p></p>
+
+              <div id="attachments" class="hide">
+                <h2>Attachments</h2>
+                <ul id="attachmentlist"></ul>
+              </div>
+              <div class="no-print">
+                <p> -->
+              <button type="submit" class="btn no-print" style="width: 125px" >Save Note</button>&nbsp&nbsp&nbsp
+              <input type="button" class="btn no-print" style="width: 125px" value="Print Report" onClick="window.print()" />
+            <!--</p>-->
+      <!--</div>-->
+          </form>
+        </section>
+
+        <section id="allnotes" class="hide">
+          <h2>Recent notes</h2>
+          <form id="searchnotes" method="get">
+            <p>
+              <label for="q">Search</label>
+              <input id="q" name="q" type="search" >
+            </p>
+            <p>
+              <button type="submit" class="btn no-print" style="width: 125px">Search</button>
+            </p>
+          </form>
+
+          <table id="notelist">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Project</th>
+                <th>Technician</th>
+                <th>Status</th>
+                <!-- <th>Created</th>
+                <th>Updated</th> -->
+              </tr>
+            </thead>
+              <tbody><tr><td></td></tr></tbody>
+          </table>
+        </section>
+      </div>
+    </main>
+
+      <div id="syncdialog" class="dialog hide" data-action="close">
+        <div>
+          <button type="button" class="close" data-action="close">Close</button>
+          <h1>Sync-ing data</h1>
+          <div class="progressbar">
+            <progress max="100"></progress>
+          </div>
+        </div>
+      </div>
+      <div id="errordialog" class="dialog hide" data-action="close">
+        <div>
+          <button type="button" data-action="close"></button>
+          <h1>Error</h1>
+          <div class="msg"></div>
+        </div>
+      </div>
+    </div>
+  <footer>
+    <div class="no-print" style="text-align: center">
+      <br/>
+      <p><a href="www.blueoakenergy.com">Blue Oak Energy</a></p>
+    </div>
+  </footer>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/pouchdb-nightly.min.js"></script>
+    <script src="js/application.js"></script>
+</body>
+
+</html>
